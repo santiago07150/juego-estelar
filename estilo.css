@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ body {
+      font-family: Arial, sans-serif;
+      background-image: url('images/inicio.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+.form-container {
+    margin-right: 700px;
+    color: white;
+    background-color: #ffffff00;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 50px;
+}
+
+.form-group {
+    margin-bottom: 30px;
+    font-size: 30px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}   
+
+
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: red;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+
+
+p {
+    text-align: center;
+    margin-top: 10px;
+}
+
+a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid red;
+    background-color: transparent;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #ffffff; /* Para asegurar que el texto dentro del input sea visible */
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.5); /* Ajusta la transparencia y el color del placeholder si es necesario */
+}
+.password-container {
+    position: relative;
+}
+
+.password-container input {
+    width: 100%;
+    padding: 10px;
+    padding-right: 40px; /* Ajusta el espacio para el ícono */
+    border: 2px solid red;
+    background-color: transparent;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #ffffff; /* Para asegurar que el texto dentro del input sea visible */
+}
+
+.password-container i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.password-container i:hover {
+    color: #ffffff;
+}
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}

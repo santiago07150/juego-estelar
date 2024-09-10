@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" href="images\icono.avif" type="image/x-icon">
+  <title>Jugadores Registrados</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-image: url('images/fondo6.webp');
+      background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+      background-position: center; /* Centra la imagen */
+      background-repeat: no-repeat; /* Evita que la imagen se repita */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 90vh;
+    }
+
+    .container {
+      max-width: 1300px;
+      background-color: #ffffff00;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: 80px;
+    }
+
+    #jugadores {
+      display: flex;
+      justify-content: space-around; /* Aumenta el espacio entre los jugadores */
+      align-items: center;
+      flex-wrap: wrap; /* Permite que los jugadores se distribuyan en varias filas si es necesario */
+    }
+
+    .jugador {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #f9f9f900;
+      border: 1px solid #ddd;
+      width: 200px;
+      margin: 8px; /* Añade un margen adicional alrededor de cada jugador */
+    }
+
+    .jugador img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+    }
+
+    .jugador p {
+      font-size: 30px;
+      color: #ffffff;
+      text-align: center;
+      margin: 10px;
+    }
+
+    button {
+      padding: 20px 20px;
+      background-color: #ffffff;
+      color: rgb(0, 0, 0);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 30px;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      color: white;
+      background-color: #00b3ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Tabla de jugadores</h1>
+    <div id="jugadores"></div>
+    <button onclick="window.location.href='../dado/index3.html'">Continuar</button>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const jugadores = [];
+      for (let i = 1; i <= 5; i++) {
+        const nombre = urlParams.get(`jugador-${i}-nombre`);
+        const imagen = urlParams.get(`jugador-${i}-imagen`);
+        if (nombre && imagen) {
+          jugadores.push({ nombre, imagen });
+        }
+      }
+
+      const jugadoresDiv = document.getElementById('jugadores');
+      jugadores.forEach((jugador, index) => {
+        const jugadorDiv = document.createElement('div');
+        jugadorDiv.className = 'jugador';
+
+        const texto = document.createElement('p');
+        texto.textContent = `Jugador ${index + 1}: ${jugador.nombre}`;
+
+        const imagenElement = document.createElement('img');
+        imagenElement.src = jugador.imagen;
+        imagenElement.alt = jugador.nombre;
+
+        jugadorDiv.appendChild(texto);
+        jugadorDiv.appendChild(imagenElement);
+        jugadoresDiv.appendChild(jugadorDiv);
+      });
+    </script>
+  </div>
+</body>
+</html>

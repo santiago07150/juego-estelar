@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" href="images\icono.avif" type="image/x-icon">
+  <title>Registro de jugadores</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-image: url('images/fondo3.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 400px;
+      padding: 10px;
+      margin-left: -100px;
+      text-align: center;
+    }
+
+    .titulo {
+      margin-top: -200px;
+      margin-left: 330px;
+      font-size: 40px;
+      font-weight: bold;
+      color: #ffffff;
+      text-shadow: 1px 1px 1px #ffffff;
+    }
+
+    input[type="text"] {
+      width: 70%;
+      padding: 10px;
+      margin-left: -150px;
+      border: 2px solid #ffffff;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .imagen-select {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .imagen-select img {
+      width: 80px;
+      height: 80px;
+      margin: 20px;
+      border: 3px solid #fff4f4;
+      border-radius: 50%;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .imagen-select img:hover {
+      border-color: #ffeded;
+      transform: scale(1.1);
+    }
+
+    .imagen-select img.selected {
+      border-color: #ffffff;
+      transform: scale(1.2);
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    button {  
+      margin-top: 500px;
+      margin-right: 800px;
+      background-color: #00796b00;
+      color: #ffffff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:disabled {
+      color: black;
+      background-color: #ffffffa2;
+      cursor: not-allowed;
+    }
+
+    button:hover:not(:disabled) {
+      border: 3px solid white; /* Color y grosor del borde */
+      background-color: #303d3b00;
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="titulo">Registro Jugadores</h1>
+    <script>
+      // Obtener el número de jugadores desde los parámetros de la URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const numJugadores = parseInt(urlParams.get('numJugadores'));
+
+      // Crear un array para almacenar los nombres e imágenes de los jugadores
+      let jugadores = [];
+
+      // Crear un array de imágenes
+      const imagenes = [
+        'images/player1.png',
+        'images/player2.png',
+        'images/player3.png',
+        'images/player4.png',
+        'images/player5.png',
+      ];
+
+      // Función para actualizar el estado de las imágenes
+      function updateImageStates() {
+        const imagenElements = document.querySelectorAll('.imagen-select img');
+        imagenElements.forEach((img) => {
+          const isSelected = jugadores.some((jugador) => jugador.imagen === img.src);
+          if (isSelected) {
+            img.classList.add('selected');
+            img.style.pointerEvents = 'none';
+          }
+        });
+      }
+
+      // Función para habilitar o deshabilitar el botón basado en el estado de los campos
+      function toggleSubmitButton(input, submitButton, imagenSelect) {
+        const selectedImage = imagenSelect.querySelector('img.selected');
+        if (input.value.trim() !== "" && selectedImage) {
+          submitButton.disabled = false;
+        } else {
+          submitButton.disabled = true;
+        }
+      }
+
+      // Función para pedir el nombre y la imagen de cada jugador
+      function askForPlayerInfo(i) {
+        const playerNameInput = document.createElement('input');
+        playerNameInput.type = 'text';
+        playerNameInput.id = `nombre-${i}`;
+        playerNameInput.required = true;
+        playerNameInput.placeholder = `Nombre del jugador ${i + 1}`;
+
+        const imagenSelect = document.createElement('div');
+        imagenSelect.className = 'imagen-select';
+
+        // Agregar imágenes al selector
+        imagenes.forEach((imagen) => {
+          const imagenElement = document.createElement('img');
+          imagenElement.src = imagen;
+          imagenElement.alt = imagen;
+
+          imagenElement.addEventListener('click', () => {
+            imagenSelect.querySelectorAll('img').forEach((img) => img.classList.remove('selected'));
+            imagenElement.classList.add('selected');
+            toggleSubmitButton(playerNameInput, submitButton, imagenSelect);
+          });
+
+          imagenSelect.appendChild(imagenElement);
+        });
+
+        const submitButton = document.createElement('button');
+        submitButton.textContent = 'Siguiente';
+        submitButton.disabled = true;  // Inicialmente deshabilitado
+
+        // Escuchar cambios en el input para habilitar el botón cuando sea necesario
+        playerNameInput.addEventListener('input', () => {
+          toggleSubmitButton(playerNameInput, submitButton, imagenSelect);
+        });
+
+        submitButton.onclick = () => {
+          const nombre = playerNameInput.value;
+          const imagenSrc = imagenSelect.querySelector('img.selected').src;
+          jugadores.push({ nombre, imagen: imagenSrc });
+
+          updateImageStates(); // Actualiza el estado de las imágenes
+
+          if (i < numJugadores - 1) {
+            playerNameInput.remove();
+            imagenSelect.remove();
+            submitButton.remove();
+            askForPlayerInfo(i + 1);
+          } else {
+            console.log('Todos los jugadores han ingresado sus nombres e imágenes');
+            console.log(jugadores);
+
+            const params = new URLSearchParams();
+            jugadores.forEach((jugador, index) => {
+              params.append(`jugador-${index + 1}-nombre`, jugador.nombre);
+              params.append(`jugador-${index + 1}-imagen`, jugador.imagen);
+            });
+            window.location.href = `realizado.html?${params.toString()}`;
+          }
+        };
+
+        document.body.appendChild(playerNameInput);
+        document.body.appendChild(imagenSelect);
+        document.body.appendChild(submitButton);
+
+        updateImageStates(); // Inicializa el estado de las imágenes
+      }
+
+      askForPlayerInfo(0);
+    </script>
+  </div>
+</body>
+</html>

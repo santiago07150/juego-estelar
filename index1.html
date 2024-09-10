@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" href="images/icono.avif" type="image/x-icon">
+  <title>Ingreso de jugadores</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('images/p.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 200px auto;
+      margin-left: 200px;
+      background-color: #ffffff00;
+      border: 1px solid #ffffff00;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .titulo {
+      font-size: 50px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+    .formulario {
+      margin-top: 40px;
+      font-size: 40px;
+      color: white;
+    }
+    input[type="number"] {
+      width: 100px; /* Ancho del input */
+      height: 20px; /* Alto del input */
+      font-size: 30px; /* Tamaño de la fuente */
+      padding: 10px; /* Espaciado interno */
+      border-radius: 10px; /* Bordes redondeados */
+      border: 2px solid white; /* Borde blanco */
+      background-color: #ffffff; /* Fondo transparente */
+      color: rgb(0, 0, 0); /* Texto blanco */
+    }
+    .boton {
+      border: 3px solid white; /* Color y grosor del borde */
+      background-color: #ffffff00;
+      color: #fff;
+      padding: 20px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 30px;
+    }
+    .boton:hover {
+      background-color: #006aff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="titulo">Ingrese la cantidad de jugadores</h1>
+    <form id="formulario-jugadores" class="formulario">
+      <label for="num-jugadores">Cantidad de jugadores:</label>
+      <input type="number" id="num-jugadores" min="2" max="5"><br><br>
+      <button type="submit" class="boton">Continuar</button>
+    </form>
+  </div>
+
+  <script>
+    // Obtenemos el formulario y el input de número de jugadores
+    const formularioJugadores = document.getElementById('formulario-jugadores');
+    const inputNumJugadores = document.getElementById('num-jugadores');
+
+    // Agregamos un listener al formulario para obtener el valor ingresado
+    formularioJugadores.addEventListener('submit', (e) => {
+      e.preventDefault(); // Evitamos que se envíe el formulario
+
+      // Obtenemos el valor ingresado por el usuario
+      const numJugadores = inputNumJugadores.value;
+
+      // Redirigimos a la página principal con el número de jugadores establecido
+      window.location.href = `index2.html?numJugadores=${numJugadores}`;
+    });
+  </script>
+</body>
+</html>
